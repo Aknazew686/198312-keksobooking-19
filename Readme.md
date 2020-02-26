@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александр Князев](https://up.htmlacademy.ru/javascript/19/user/198312).
-* Наставник: [Владислав Кривокора](https://up.htmlacademy.ru/javascript/19/user/167185).
+* Наставник: [Денис Выхрыстюк](https://up.htmlacademy.ru/javascript/19/user/568747).
 
 ---
 
