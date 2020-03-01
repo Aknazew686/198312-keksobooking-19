@@ -6,6 +6,7 @@ var AVATAR_WIDTH = 40;
 var AVATAR_HEIGHT = 40;
 var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
+var templateCard = document.querySelector('#card').content.querySelector('.map__card');
 
 var randomNumber = function (min,max) {
   var rand = min + Math.random() * (max + 1 - min);
@@ -16,10 +17,12 @@ var randomArr = function (arr) {
   var randomArr = [];
   var copyArr = arr.slice();
 
-  for (var i = 0; i < randomNumber(1,copyArr.length - 1); i++) {
+  var count =  randomNumber(1,copyArr.length - 1)
+  console.log(count)
+  for (var i = 0; i < count; i++) {
     var randomIndex = randomNumber(0,copyArr.length - 1)
     randomArr.push(copyArr[randomIndex]);
-    copyArr.splice(copyArr[randomIndex], 1);
+    copyArr.splice(randomIndex, 1);
   }
 
   return randomArr;
@@ -39,9 +42,9 @@ var createPin = function (i) {
       guests: randomNumber(1,8),
       checkin: '12:00',
       checkout: '14:00',
-      features: [randomArr(FEATURES)],
+      features: randomArr(FEATURES),
       description: 'Сдается дом для проживания',
-      photos: [randomArr(PHOTOS)]
+      photos: randomArr(PHOTOS)
     },
     location: {
       x: randomNumber(1,1200),
@@ -62,14 +65,9 @@ var createPins = function () {
 
 var pins = createPins();
 
-var arrayRandElement = function (arr) {
-  var random = Math.floor(Math.random() * arr.length);
-  return arr[random];
-}
-
 map.classList.remove('map--faded');
 
-var renderPins = function (arr) {
+var renderPins = function () {
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < pins.length; i++) {
@@ -86,4 +84,74 @@ var renderPins = function (arr) {
   return fragment;
 };
 
-map.appendChild(renderPins(pins));
+function getTypeName(type) {
+  switch (type) {
+    case 'bungalo':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
+    case 'flat':
+      return 'Квартира';
+    default:
+      return 'Бунгало';
+  }
+}
+
+var featureItem = templateCard.querySelector('.popup__feature--wifi');
+featureItem.classList.remove('popup__feature--wifi');
+
+var renderFeatures = function (features, container) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < features.length; i++) {
+    var cardFeature = featureItem.cloneNode(true);
+
+    cardFeature.classList.add('popup__feature--' + features[i]);
+
+    container.appendChild(cardFeature);
+
+  }
+};
+
+var photoTemplate = templateCard.querySelector('.popup__photos');
+
+var renderPhoto = function (photo, container) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < photo.length; i++) {
+    var cardPhoto = photoTemplate.cloneNode(true);
+
+    cardPhoto.querySelector('img').src = photo[i];
+
+    container.appendChild(cardPhoto);
+
+  }
+};
+
+var renderCard = function () {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < pins.length; i++) {
+    var cardElement = templateCard.cloneNode(true);
+
+    cardElement.querySelector('.popup__title').textContent = pins[i].offer.title;
+    cardElement.querySelector('.popup__text--address').textContent = pins[i].offer.address;
+    cardElement.querySelector('.popup__text--price').textContent = pins[i].offer.price + '₽/ночь';
+    cardElement.querySelector('.popup__type').textContent = getTypeName(pins[i].offer.type);
+    cardElement.querySelector('.popup__text--capacity').textContent = pins[i].offer.rooms + ' комнаты для ' + pins[i].offer.guests + ' гостей';
+    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + pins[i].offer.checkin + ', выезд до ' + pins[i].offer.checkout;
+    renderFeatures(pins[i].offer.features,cardElement.querySelector('.popup__features') );
+    cardElement.querySelector('.popup__description').textContent = pins[i].offer.description;
+    renderPhoto(pins[i].offer.photos, cardElement.querySelector('.popup__photos'));
+    cardElement.querySelector('.popup__avatar').src = pins[i].author.avatar;
+
+  fragment.appendChild(cardElement);
+  }
+
+  return fragment;
+};
+
+map.appendChild(renderPins());
+map.appendChild(renderCard());
