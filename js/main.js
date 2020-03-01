@@ -17,10 +17,12 @@ var randomArr = function (arr) {
   var randomArr = [];
   var copyArr = arr.slice();
 
-  for (var i = 0; i < randomNumber(1,copyArr.length - 1); i++) {
+  var count =  randomNumber(1,copyArr.length - 1)
+  console.log(count)
+  for (var i = 0; i < count; i++) {
     var randomIndex = randomNumber(0,copyArr.length - 1)
     randomArr.push(copyArr[randomIndex]);
-    copyArr.splice(copyArr[randomIndex], 1);
+    copyArr.splice(randomIndex, 1);
   }
 
   return randomArr;
@@ -97,6 +99,37 @@ function getTypeName(type) {
   }
 }
 
+var featureItem = templateCard.querySelector('.popup__feature--wifi');
+featureItem.classList.remove('popup__feature--wifi');
+
+var renderFeatures = function (features, container) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < features.length; i++) {
+    var cardFeature = featureItem.cloneNode(true);
+
+    cardFeature.classList.add('popup__feature--' + features[i]);
+
+    container.appendChild(cardFeature);
+
+  }
+};
+
+var photoTemplate = templateCard.querySelector('.popup__photos');
+
+var renderPhoto = function (photo, container) {
+  container.innerHTML = '';
+
+  for (var i = 0; i < photo.length; i++) {
+    var cardPhoto = photoTemplate.cloneNode(true);
+
+    cardPhoto.querySelector('img').src = photo[i];
+
+    container.appendChild(cardPhoto);
+
+  }
+};
+
 var renderCard = function () {
   var fragment = document.createDocumentFragment();
 
@@ -109,9 +142,9 @@ var renderCard = function () {
     cardElement.querySelector('.popup__type').textContent = getTypeName(pins[i].offer.type);
     cardElement.querySelector('.popup__text--capacity').textContent = pins[i].offer.rooms + ' комнаты для ' + pins[i].offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + pins[i].offer.checkin + ', выезд до ' + pins[i].offer.checkout;
-    //cardElement.querySelector('.popup__features') = '#';
+    renderFeatures(pins[i].offer.features,cardElement.querySelector('.popup__features') );
     cardElement.querySelector('.popup__description').textContent = pins[i].offer.description;
-    cardElement.querySelector('.popup__photos').src = pins[i].offer.photos;
+    renderPhoto(pins[i].offer.photos, cardElement.querySelector('.popup__photos'));
     cardElement.querySelector('.popup__avatar').src = pins[i].author.avatar;
 
   fragment.appendChild(cardElement);
