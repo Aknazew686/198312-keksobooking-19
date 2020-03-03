@@ -8,46 +8,35 @@ var map = document.querySelector('.map');
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 var templateCard = document.querySelector('#card').content.querySelector('.map__card');
 var mapPinClickHandler = document.querySelector('.map__pin--main');
-
 var adForm = document.querySelector('.notice');
 var adFormElements = adForm.querySelectorAll('fieldset');
-
-var headingAdsInput = document.querySelector('#title');
 var priceInput = document.querySelector('#price');
 var typeHousing = document.querySelector('#type')
-var MIN_PRICE_BUNGALO = 0;
-var MIN_PRICE_FLAT = 1000;
-var MIN_PRICE_HOUSE = 5000;
-var MIN_PRICE_PALACE = 10000;
 var room = document.querySelector('#room_number');
 var guest = document.querySelector('#capacity');
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+var photoTemplate = templateCard.querySelector('.popup__photos');
 
 room.addEventListener('change', function (evt) {
-  console.log(room.value);
-  console.log(guest.value);
-if (room.value < guest.value) {
-  room.setCustomValidity('Количество гостей превышает количество комнат')
-} else {
-  room.setCustomValidity('')
-}
+  if (room.value === '100' && guest.value !== '0') {
+    room.setCustomValidity('Должно быть выбранно "не для гостей" ')
+  } else if (room.value < guest.value) {
+    room.setCustomValidity('Количество гостей превышает количество комнат')
+  } else {
+    room.setCustomValidity('')
+  }
 });
 
 guest.addEventListener('change', function (evt) {
-  console.log(room.value);
-  console.log(guest.value);
-  if (guest.value > room.value) {
+  if (guest.value === '0' && room.value !== '100') {
+    room.setCustomValidity('Должно быть выбранно "100 комнат" ')
+  } else if (guest.value > room.value) {
     guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
   } else {
     guest.setCustomValidity('')
   }
-  });
-//console.log(room.value);
-
-//if(3>2) {
-//  input.setCustomValidity('sdfsdfsdfds')
-//} else {
-//  input.setCustomValidity('')
-//}
+});
 
 var houseType = {
   bungalo: 0,
@@ -55,9 +44,6 @@ var houseType = {
   house: 5000,
   palace: 10000
 }
-
-var timeIn = document.querySelector('#timein');
-var timeOut = document.querySelector('#timeout');
 
 timeIn.addEventListener('change', function (evt) {
   timeOut.value = evt.target.value;
@@ -72,17 +58,7 @@ typeHousing.addEventListener('change', function (evt) {
 
     priceInput.setAttribute('min', houseType[value]);
     priceInput.setAttribute('placeholder', houseType[value]);
-
 });
-
-
-  priceInput.addEventListener('invalid', function (evt) {
-  if (priceInput.validity.toolong) {
-    priceInput.setCustomValidity('Максимальная цена 1000000');
-  }
-});
-
-
 
 var toggleDisabled = function(type) {
   for (var i = 0; i < adFormElements.length; i++ ) {
@@ -104,11 +80,11 @@ var randomNumber = function (min,max) {
 var randomArr = function (arr) {
   var randomArr = [];
   var copyArr = arr.slice();
-
   var count =  randomNumber(1,copyArr.length - 1)
 
   for (var i = 0; i < count; i++) {
-    var randomIndex = randomNumber(0,copyArr.length - 1)
+    var randomIndex = randomNumber(0,copyArr.length - 1);
+
     randomArr.push(copyArr[randomIndex]);
     copyArr.splice(randomIndex, 1);
   }
@@ -161,7 +137,7 @@ var getActiveMap = function () {
 };
 
 mapPinClickHandler.addEventListener('mousedown', function (evt) {
-  if (evt.which == 1) {
+  if (evt.which === 1) {
     getActiveMap();
   };
 });
@@ -171,8 +147,6 @@ mapPinClickHandler.addEventListener('keydown', function (evt) {
     getActiveMap();
   }
 });
-
-
 
 var renderPins = function () {
   var fragment = document.createDocumentFragment();
@@ -184,7 +158,6 @@ var renderPins = function () {
     pinElement.style.top =  pins[i].location.y + (AVATAR_HEIGHT / 2 ) + 'px';
     pinElement.querySelector('img').src = pins[i].author.avatar;
     pinElement.querySelector('img').alt = pins[i].offer.title;
-
     fragment.appendChild(pinElement);
   }
 
@@ -214,26 +187,20 @@ var renderFeatures = function (features, container) {
 
   for (var i = 0; i < features.length; i++) {
     var cardFeature = featureItem.cloneNode(true);
-
     cardFeature.classList.add('popup__feature--' + features[i]);
-
     container.appendChild(cardFeature);
-
   }
 };
 
-var photoTemplate = templateCard.querySelector('.popup__photos');
+
 
 var renderPhoto = function (photo, container) {
   container.innerHTML = '';
 
   for (var i = 0; i < photo.length; i++) {
     var cardPhoto = photoTemplate.cloneNode(true);
-
     cardPhoto.querySelector('img').src = photo[i];
-
     container.appendChild(cardPhoto);
-
   }
 };
 
