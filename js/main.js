@@ -17,6 +17,12 @@ var guest = document.querySelector('#capacity');
 var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 var photoTemplate = templateCard.querySelector('.popup__photos');
+var pin = document.querySelector('.map__pin');
+
+map.appendChild(templateCard);
+
+var modalCard = document.querySelector('.map__card.popup');
+modalCard.classList.add('hidden');
 
 
 room.addEventListener('change', function (evt) {
@@ -128,6 +134,8 @@ var createPins = function () {
   return pins;
 }
 
+
+
 var pins = createPins();
 
 var getActiveMap = function () {
@@ -149,23 +157,7 @@ mapPinClickHandler.addEventListener('keydown', function (evt) {
   }
 });
 
-var renderPins = function () {
-  var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < pins.length; i++) {
-    var pinElement = templatePin.cloneNode(true);
-
-    pinElement.style.left =  pins[i].location.x + (AVATAR_WIDTH / 2 ) + 'px';
-    pinElement.style.top =  pins[i].location.y + (AVATAR_HEIGHT / 2 ) + 'px';
-    pinElement.querySelector('img').src = pins[i].author.avatar;
-    pinElement.querySelector('img').alt = pins[i].offer.title;
-    fragment.appendChild(pinElement);
-
-
-  }
-
-  return fragment;
-};
 
 function getTypeName(type) {
   switch (type) {
@@ -205,26 +197,38 @@ var renderPhoto = function (photo, container) {
   }
 };
 
-var renderCard = function (pin) {
-    var cardElement = templateCard.cloneNode(true);
+var openCard = function (pin) {
+    modalCard.classList.remove('hidden');
 
-    cardElement.querySelector('.popup__title').textContent = pin.offer.title;
-    cardElement.querySelector('.popup__text--address').textContent = pin.offer.address;
-    cardElement.querySelector('.popup__text--price').textContent = pin.offer.price + '₽/ночь';
-    cardElement.querySelector('.popup__type').textContent = getTypeName(pin.offer.type);
-    cardElement.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей';
-    cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout;
-    renderFeatures(pin.offer.features,cardElement.querySelector('.popup__features') );
-    cardElement.querySelector('.popup__description').textContent = pin.offer.description;
-    renderPhoto(pin.offer.photos, cardElement.querySelector('.popup__photos'));
-    cardElement.querySelector('.popup__avatar').src = pin.author.avatar;
-
-    map.appendChild(cardElement);
+    modalCard.querySelector('.popup__title').textContent = pin.offer.title;
+    modalCard.querySelector('.popup__text--address').textContent = pin.offer.address;
+    modalCard.querySelector('.popup__text--price').textContent = pin.offer.price + '₽/ночь';
+    modalCard.querySelector('.popup__type').textContent = getTypeName(pin.offer.type);
+    modalCard.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей';
+    modalCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout;
+    renderFeatures(pin.offer.features, modalCard.querySelector('.popup__features') );
+    modalCard.querySelector('.popup__description').textContent = pin.offer.description;
+    renderPhoto(pin.offer.photos, modalCard.querySelector('.popup__photos'));
+    modalCard.querySelector('.popup__avatar').src = pin.author.avatar;
 };
 
-renderCard(pins);
-/*pin.addEventListener('mousedown', function (evt) {
-  if (evt.which === 1) {
-    map.appendChild(renderCard());
+var renderPins = function () {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < pins.length; i++) {
+    var pinElement = templatePin.cloneNode(true);
+
+    pinElement.style.left =  pins[i].location.x + (AVATAR_WIDTH / 2 ) + 'px';
+    pinElement.style.top =  pins[i].location.y + (AVATAR_HEIGHT / 2 ) + 'px';
+    pinElement.querySelector('img').src = pins[i].author.avatar;
+    pinElement.querySelector('img').alt = pins[i].offer.title;
+    fragment.appendChild(pinElement);
+
+    pinElement.addEventListener('click', function (evt) {
+      map.appendChild(openCard());
+    })
   };
-});*/
+
+  return fragment;
+};
+
