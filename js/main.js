@@ -18,12 +18,23 @@ var timeIn = document.querySelector('#timein');
 var timeOut = document.querySelector('#timeout');
 var photoTemplate = templateCard.querySelector('.popup__photos');
 var pin = document.querySelector('.map__pin');
+var popupClose = templateCard.querySelector('.popup__close')
 
 map.appendChild(templateCard);
-
 var modalCard = document.querySelector('.map__card.popup');
 modalCard.classList.add('hidden');
 
+map.addEventListener('keydown', function (evt) {
+  if (evt.key === 'Escape') {
+    modalCard.classList.add('hidden');
+  };
+});
+
+popupClose.addEventListener('mouseup', function (evt) {
+  if (evt.which === 1) {
+    modalCard.classList.add('hidden');
+  };
+});
 
 room.addEventListener('change', function (evt) {
   if (room.value === '100' && guest.value !== '0') {
@@ -224,8 +235,16 @@ var renderPins = function () {
     pinElement.querySelector('img').alt = pins[i].offer.title;
     fragment.appendChild(pinElement);
 
-    pinElement.addEventListener('click', function (evt) {
-      map.appendChild(openCard());
+    pinElement.addEventListener('mousedown', function (evt) {
+      if (evt.which === 1) {
+        openCard(pins[i]);
+      };
+    })
+
+    pinElement.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Enter') {
+        openCard(pins[i]);
+      };
     })
   };
 
