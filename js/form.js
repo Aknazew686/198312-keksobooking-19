@@ -84,6 +84,9 @@
     }
   };
 
+  var xCoord = parseInt(mapPinClickHandler.style.left);
+  var yCoord = parseInt(mapPinClickHandler.style.top);
+
   mapPinClickHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -100,29 +103,33 @@
         y: startCoords.y - moveEvt.clientY
       };
 
-      var pinPosicionY = (mapPinClickHandler.offsetTop - shift.y) + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT;
-      var pinPosicionX = (mapPinClickHandler.offsetLeft - shift.x) + MAINPIN_WIDTH / 2;
-
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
+      xCoord = xCoord - shift.x
+      yCoord = xCoord - shift.y
+
       mapPinClickHandler.style.top = (mapPinClickHandler.offsetTop - shift.y) + 'px';
       mapPinClickHandler.style.left = (mapPinClickHandler.offsetLeft - shift.x) + 'px';
 
-      address.value = (pinPosicionX) + ', ' + (pinPosicionY);
+      address.value = (xCoord) + ', ' + (yCoord);
 
-      if (pinPosicionX <= 0) {
+      if (xCoord <= 0) {
         mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
-       } else if (pinPosicionX >= 1200) {
+       } else if (xCoord >= 1200) {
         mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
+      } else {
+        mapPinClickHandler.style.left = (xCoord) + 'px';
       };
 
-      if (pinPosicionY <= 130) {
+      if (yCoord <= 130) {
         mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-      } else if (pinPosicionY >= 630) {
+      } else if (yCoord >= 630) {
         mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
+      } else {
+        mapPinClickHandler.style.top = (yCoord) + 'px';
       };
     };
 
