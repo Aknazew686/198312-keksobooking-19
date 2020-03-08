@@ -87,7 +87,7 @@
   var xCoord = parseInt(mapPinClickHandler.style.left);
   var yCoord = parseInt(mapPinClickHandler.style.top);
 
-  var renderAdress = function (xCoord, yCoord) {
+  var renderAdress = function () {
     address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
   };
 
@@ -117,27 +117,26 @@
 
       if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
         mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
-        address.value = (0) + ', ' + (yCoord);
+        xCoord = (0 - MAINPIN_WIDTH / 2);
        } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
         mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
-        address.value = (1200) + ', ' + (yCoord);
+        xCoord = (1200 -  MAINPIN_WIDTH / 2);
       } else {
         mapPinClickHandler.style.left = xCoord + 'px';
-        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (yCoord);
       };
 
       if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
         mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (130);
+        yCoord = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
       } else if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
+        yCoord = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
         mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (630);
+
       } else {
         mapPinClickHandler.style.top = yCoord + 'px';
-        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT);
       };
 
-      //renderAdress(xCoord, yCoord);
+      renderAdress();
     };
 
     var onMouseUp = function (upEvt) {
