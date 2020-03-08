@@ -32,6 +32,6 @@
 
   window.map = {
     map: map,
-    templateCard
+    templateCard: templateCard
   };
 })();
