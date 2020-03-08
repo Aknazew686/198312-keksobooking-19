@@ -13,6 +13,7 @@
   var adFormElements = adForm.querySelectorAll('fieldset');
   var priceInput = document.querySelector('#price');
   var mapPinClickHandler = document.querySelector('.map__pin--main');
+  var address = document.querySelector('#address');
 
   room.addEventListener('change', function (evt) {
     if (room.value === '100' && guest.value !== '0') {
