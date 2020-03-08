@@ -88,7 +88,7 @@
   var yCoord = parseInt(mapPinClickHandler.style.top);
 
   var renderAdress = function (xCoord, yCoord) {
-    address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT;
+    address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
   };
 
   mapPinClickHandler.addEventListener('mousedown', function (evt) {
@@ -156,6 +156,8 @@
     toggleDisabled: toggleDisabled,
     getTypeName: getTypeName,
     mapPinClickHandler: mapPinClickHandler,
-    renderAdress: renderAdress
+    renderAdress: renderAdress,
+    xCoord: xCoord,
+    yCoord: yCoord
   };
 })();
