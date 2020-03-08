@@ -27,10 +27,10 @@
        var cardPhoto = photoTemplate.cloneNode(true);
        cardPhoto.querySelector('img').src = photo[i];
        container.appendChild(cardPhoto);
-     }
-   };
+      }
+  };
 
-   var renderCard = function (pin) {
+  var renderCard = function (pin) {
     modalCard.classList.remove('hidden');
     modalCard.querySelector('.popup__title').textContent = pin.offer.title;
     modalCard.querySelector('.popup__text--address').textContent = pin.offer.address;

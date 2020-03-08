@@ -84,6 +84,13 @@
     }
   };
 
+  var xCoord = parseInt(mapPinClickHandler.style.left);
+  var yCoord = parseInt(mapPinClickHandler.style.top);
+
+  var renderAdress = function () {
+    address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
+  };
+
   mapPinClickHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -105,23 +112,31 @@
         y: moveEvt.clientY
       };
 
-      mapPinClickHandler.style.top = (mapPinClickHandler.offsetTop - shift.y) + 'px';
-      mapPinClickHandler.style.left = (mapPinClickHandler.offsetLeft - shift.x) + 'px';
+      xCoord = xCoord - shift.x;
+      yCoord = yCoord - shift.y;
 
-      address.value = ((mapPinClickHandler.offsetLeft - shift.x) + MAINPIN_WIDTH / 2) + ', ' +
-      ((mapPinClickHandler.offsetTop - shift.y) + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT);
-
-      if ((mapPinClickHandler.offsetLeft - shift.x) + MAINPIN_WIDTH / 2 <= 0) {
+      if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
         mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
-       } else if ((mapPinClickHandler.offsetLeft - shift.x) + MAINPIN_WIDTH / 2 >= 1200) {
+        xCoord = (0 - MAINPIN_WIDTH / 2);
+       } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
         mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
+        xCoord = (1200 -  MAINPIN_WIDTH / 2);
+      } else {
+        mapPinClickHandler.style.left = xCoord + 'px';
       };
 
-      if ((mapPinClickHandler.offsetTop - shift.y) + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
+      if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
         mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-      } else if ((mapPinClickHandler.offsetTop - shift.y) + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
+        yCoord = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
+      } else if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
+        yCoord = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
         mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
+
+      } else {
+        mapPinClickHandler.style.top = yCoord + 'px';
       };
+
+      renderAdress();
     };
 
     var onMouseUp = function (upEvt) {
@@ -139,6 +154,9 @@
     adForm: adForm,
     toggleDisabled: toggleDisabled,
     getTypeName: getTypeName,
-    mapPinClickHandler: mapPinClickHandler
+    mapPinClickHandler: mapPinClickHandler,
+    renderAdress: renderAdress,
+    xCoord: xCoord,
+    yCoord: yCoord
   };
 })();
