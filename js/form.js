@@ -87,6 +87,10 @@
   var xCoord = parseInt(mapPinClickHandler.style.left);
   var yCoord = parseInt(mapPinClickHandler.style.top);
 
+  var renderAdress = function (xCoord, yCoord) {
+    address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT;
+  };
+
   mapPinClickHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -108,29 +112,32 @@
         y: moveEvt.clientY
       };
 
-      xCoord = xCoord - shift.x
-      yCoord = xCoord - shift.y
+      xCoord = xCoord - shift.x;
+      yCoord = yCoord - shift.y;
 
-      mapPinClickHandler.style.top = (mapPinClickHandler.offsetTop - shift.y) + 'px';
-      mapPinClickHandler.style.left = (mapPinClickHandler.offsetLeft - shift.x) + 'px';
-
-      address.value = (xCoord) + ', ' + (yCoord);
-
-      if (xCoord <= 0) {
+      if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
         mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
-       } else if (xCoord >= 1200) {
+        address.value = (0) + ', ' + (yCoord);
+       } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
         mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
+        address.value = (1200) + ', ' + (yCoord);
       } else {
-        mapPinClickHandler.style.left = (xCoord) + 'px';
+        mapPinClickHandler.style.left = xCoord + 'px';
+        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (yCoord);
       };
 
-      if (yCoord <= 130) {
+      if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
         mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-      } else if (yCoord >= 630) {
+        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (130);
+      } else if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
         mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
+        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (630);
       } else {
-        mapPinClickHandler.style.top = (yCoord) + 'px';
+        mapPinClickHandler.style.top = yCoord + 'px';
+        address.value = (xCoord + MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT);
       };
+
+      //renderAdress(xCoord, yCoord);
     };
 
     var onMouseUp = function (upEvt) {
@@ -148,6 +155,7 @@
     adForm: adForm,
     toggleDisabled: toggleDisabled,
     getTypeName: getTypeName,
-    mapPinClickHandler: mapPinClickHandler
+    mapPinClickHandler: mapPinClickHandler,
+    renderAdress: renderAdress
   };
 })();
