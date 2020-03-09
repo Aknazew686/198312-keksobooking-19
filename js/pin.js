@@ -97,6 +97,7 @@
   };
 
   window.pin = {
-    renderPins: renderPins
+    renderPins: renderPins,
+    templatePin: templatePin
   };
 })();
