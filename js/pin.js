@@ -39,7 +39,6 @@
 
   window.pin = {
     renderPins: renderPins,
-    templatePin: templatePin,
-    renderPins: renderPins
+    templatePin: templatePin
   };
 })();

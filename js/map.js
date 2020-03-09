@@ -13,6 +13,7 @@
     window.load.load(function (data) {
       window.data.pins = data;
       window.pin.renderPins(data);
+      map.appendChild(window.pin.renderPins());
     });
     window.form.toggleDisabled(false);
     window.form.adForm.querySelector('form').classList.remove('ad-form--disabled');
