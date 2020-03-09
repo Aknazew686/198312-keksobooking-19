@@ -16,14 +16,6 @@
     xhr.send();
   };
 
-  window.load(function (renderPins, errorHandler) {
-    var fragment = document.createDocumentFragment();
-
-    for (var i = 0; i < pins.length; i++) {
-      fragment.appendChild(window.pin.renderPin(window.pin.pins[i]));
-    }
-    window.pin.templatePin.appendChild(fragment);
-
-  });
+  window.load(window.pin.renderPins);
 
 })();
