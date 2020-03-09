@@ -18,4 +18,7 @@
 
   window.load(window.pin.renderPins);
 
+  window.load = {
+    load: load
+  };
 })();

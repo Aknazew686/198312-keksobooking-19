@@ -21,6 +21,7 @@
   window.form.mapPinClickHandler.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       getActiveMap();
+      window.load.load(renderPins);
       window.form.renderAdress();
     };
   });
@@ -28,6 +29,7 @@
   window.form.mapPinClickHandler.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ENTER_KEY) {
       getActiveMap();
+      window.load.load(renderPins);
       window.form.renderAdress();
     }
   });
