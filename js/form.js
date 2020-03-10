@@ -14,6 +14,7 @@
   var priceInput = document.querySelector('#price');
   var mapPinClickHandler = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
+  var form = document.querySelector('.ad-form');
 
   room.addEventListener('change', function (evt) {
     if (room.value === '100' && guest.value !== '0') {
@@ -150,15 +151,23 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  adForm.addEventListener('submit', function (evt) {
-   window.upload.upload(new FormData(form), function (response) {
-      evt.preventDefault();
-      adForm.querySelector('form').classList.add('ad-form--disabled');
-      toggleDisabled(true);
-    });
-    adForm.querySelector('form').classList.remove('ad-form--disabled');
-    toggleDisabled(false);
+  var hiddenPins = function () {
+    var pins = document.querySelectorAll('.map__pin');
 
+    for (var i = 0; i < pin.length; i++) {
+      pins[i].classList.add('hidden');
+    };
+    console.log(pins);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    toggleDisabled(true);
+    form.classList.add('ad-form--disabled');
+     window.upload.upload(new FormData(form), function (response) {
+      window.map.map.classList.add('map--faded');
+      hiddenPins();
+    });
   });
 
   window.form = {
