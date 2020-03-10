@@ -150,6 +150,17 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  adForm.addEventListener('submit', function (evt) {
+   window.upload.upload(new FormData(form), function (response) {
+      evt.preventDefault();
+      adForm.querySelector('form').classList.add('ad-form--disabled');
+      toggleDisabled(true);
+    });
+    adForm.querySelector('form').classList.remove('ad-form--disabled');
+    toggleDisabled(false);
+
+  });
+
   window.form = {
     adForm: adForm,
     toggleDisabled: toggleDisabled,
