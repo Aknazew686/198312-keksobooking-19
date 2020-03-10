@@ -152,12 +152,11 @@
   });
 
   var hiddenPins = function () {
-    var pins = document.querySelectorAll('.map__pin');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < pin.length; i++) {
+    for (var i = 0; i < pins.length; i++) {
       pins[i].classList.add('hidden');
     };
-    console.log(pins);
   };
 
   form.addEventListener('submit', function (evt) {

@@ -27,6 +27,7 @@
       getActiveMap();
       window.form.renderAdress();
     };
+    console.log(window.form.mapPinClickHandler.addEventListener);
   });
 
   window.form.mapPinClickHandler.addEventListener('keydown', function (evt) {
