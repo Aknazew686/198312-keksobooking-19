@@ -15,6 +15,10 @@
   var mapPinClickHandler = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
   var form = document.querySelector('.ad-form');
+  var successPopup = document.querySelector('#success').content.querySelector('.success');
+  var succesTemplate = successPopup.cloneNode(true);
+  var main = document.querySelector('main');
+
 
   room.addEventListener('change', function (evt) {
     if (room.value === '100' && guest.value !== '0') {
@@ -159,14 +163,35 @@
     };
   };
 
+
+
+  var addPopupSuccess = function () {
+    main.appendChild(succesTemplate);
+  };
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     toggleDisabled(true);
     form.classList.add('ad-form--disabled');
-     window.upload.upload(new FormData(form), function (response) {
+    window.upload.upload(new FormData(form), function (response) {
       window.map.map.classList.add('map--faded');
       hiddenPins();
+      form.reset();
+      addPopupSuccess();
+      window.map.isActiveMap = false;
     });
+  });
+
+  succesTemplate.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      succesTemplate.classList.add('hidden');
+    };
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === window.const.ESC_KEY) {
+      succesTemplate.classList.add('hidden');
+    };
   });
 
   window.form = {
