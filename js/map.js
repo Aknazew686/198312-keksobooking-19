@@ -9,7 +9,7 @@
       return;
     }
     map.classList.remove('map--faded');
-    window.load.load(function (data) {
+    window.backend.load(function (data) {
       window.data.pins = data;
       window.pin.renderPins(data);
       map.appendChild(window.pin.renderPins());
