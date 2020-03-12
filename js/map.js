@@ -14,7 +14,7 @@
       window.pin.renderPins(data);
       map.appendChild(window.pin.renderPins());
     },function (error) {
-      addPopupError(error);
+      window.form.addPopupError(error);
     });
     window.form.toggleDisabled(false);
     window.form.adForm.querySelector('form').classList.remove('ad-form--disabled');
@@ -40,6 +40,6 @@
 
   window.map = {
     map: map,
-    templateCard: templateCard,
+    templateCard: templateCard
   };
 })();

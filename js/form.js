@@ -21,6 +21,8 @@
   var errorTemplate = errorPopup.cloneNode(true);
   var main = document.querySelector('main');
   var buttonReset = document.querySelector('.ad-form__reset');
+  var errorButton = document.querySelector('#error').content.querySelector('.error__button');
+
 
   buttonReset.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
@@ -179,11 +181,11 @@ var validationGuest = function () {
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var hiddenPins = function () {
+  var removePins = function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
     for (var i = 0; i < pins.length; i++) {
-      pins[i].classList.add('hidden');
+      pins[i].remove()
     };
   };
 
@@ -191,19 +193,23 @@ var validationGuest = function () {
     main.appendChild(succesTemplate);
   };
 
-  var addPopupError = function () {
+  var addPopupError = function (error) {
+    //errorTemplate querySelector  textContent
     main.appendChild(errorTemplate);
   };
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    window.backend.sent(new FormData(form), function (response) {
+    window.backend.send(new FormData(form), function (response) {
+      console.log(2)
       window.map.map.classList.add('map--faded');
-      hiddenPins();
+      removePins();
       form.reset();
       addPopupSuccess();
       window.data.isActiveMap = false;
+    },function (error) {
+      addPopupError(error);
     });
     form.classList.add('ad-form--disabled');
     toggleDisabled(true);
@@ -219,6 +225,19 @@ var validationGuest = function () {
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ESC_KEY) {
       succesTemplate.classList.add('hidden');
+      errorTemplate.classList.add('hidden');
+    };
+  });
+
+  errorTemplate.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      errorTemplate.classList.add('hidden');
+    };
+  });
+
+  errorButton.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      errorTemplate.classList.add('hidden');
     };
   });
 

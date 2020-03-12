@@ -11,6 +11,7 @@
   var makeRequest = function (onSuccess, onError, xhr){
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
+        console.log(1)
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -34,16 +35,12 @@
       xhr.send();
       xhr.responseType = 'json';
     },
-    sent: function (data, onSuccess, onError) {
+    send: function (data, onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       makeRequest(onSuccess, onError, xhr);
       xhr.open('POST', URL);
       xhr.send(data);
       xhr.responseType = 'json';
     }
-  };
-
-  window.map = {
-    makeRequest: makeRequest
   };
 })();
