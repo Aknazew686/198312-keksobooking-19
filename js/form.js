@@ -17,27 +17,51 @@
   var form = document.querySelector('.ad-form');
   var successPopup = document.querySelector('#success').content.querySelector('.success');
   var succesTemplate = successPopup.cloneNode(true);
+  var errorPopup = document.querySelector('#error').content.querySelector('.error');
+  var errorTemplate = errorPopup.cloneNode(true);
   var main = document.querySelector('main');
+  var buttonReset = document.querySelector('.ad-form__reset');
 
+  buttonReset.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      priceInput.setAttribute('placeholder', 1000);
+    };
+  });
+
+  buttonReset.addEventListener('keydown', function (evt) {
+    if (evt.key === window.const.ENTER_KEY) {
+      priceInput.setAttribute('placeholder', 1000);
+    };
+  });
+
+var validationRoom = function () {
+  if (room.value === '100' && guest.value !== '0') {
+    room.setCustomValidity('Должно быть выбранно "не для гостей" ')
+  } else if (room.value < guest.value) {
+    room.setCustomValidity('Количество гостей превышает количество комнат')
+  } else {
+    room.setCustomValidity('')
+  }
+};
+
+var validationGuest = function () {
+  if (guest.value === '0' && room.value !== '100') {
+    room.setCustomValidity('Должно быть выбранно "100 комнат" ')
+  } else if (guest.value > room.value) {
+    guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
+  } else {
+    guest.setCustomValidity('')
+  }
+};
 
   room.addEventListener('change', function (evt) {
-    if (room.value === '100' && guest.value !== '0') {
-      room.setCustomValidity('Должно быть выбранно "не для гостей" ')
-    } else if (room.value < guest.value) {
-      room.setCustomValidity('Количество гостей превышает количество комнат')
-    } else {
-      room.setCustomValidity('')
-    }
+    validationGuest();
+    validationRoom();
   });
 
   guest.addEventListener('change', function (evt) {
-    if (guest.value === '0' && room.value !== '100') {
-      room.setCustomValidity('Должно быть выбранно "100 комнат" ')
-    } else if (guest.value > room.value) {
-      guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
-    } else {
-      guest.setCustomValidity('')
-    }
+    validationRoom();
+    validationGuest();
   });
 
   var houseType = {
@@ -163,23 +187,27 @@
     };
   };
 
-
-
   var addPopupSuccess = function () {
     main.appendChild(succesTemplate);
   };
 
+  var addPopupError = function () {
+    main.appendChild(errorTemplate);
+  };
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    toggleDisabled(true);
-    form.classList.add('ad-form--disabled');
+
     window.upload.upload(new FormData(form), function (response) {
       window.map.map.classList.add('map--faded');
       hiddenPins();
       form.reset();
       addPopupSuccess();
-      window.map.isActiveMap = false;
+      window.data.isActiveMap = false;
     });
+    form.classList.add('ad-form--disabled');
+    toggleDisabled(true);
+    priceInput.setAttribute('placeholder', 1000);
   });
 
   succesTemplate.addEventListener('mousedown', function (evt) {
@@ -200,6 +228,7 @@
     getTypeName: getTypeName,
     mapPinClickHandler: mapPinClickHandler,
     renderAdress: renderAdress,
+    addPopupError: addPopupError,
     xCoord: xCoord,
     yCoord: yCoord
   };

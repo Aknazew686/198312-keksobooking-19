@@ -2,11 +2,10 @@
 
 (function () {
   var templateCard = document.querySelector('#card').content.querySelector('.map__card');
-  var isActiveMap = false;
   var map = document.querySelector('.map');
 
   var getActiveMap = function () {
-    if (isActiveMap) {
+    if (window.data.isActiveMap) {
       return;
     }
     map.classList.remove('map--faded');
@@ -17,7 +16,7 @@
     });
     window.form.toggleDisabled(false);
     window.form.adForm.querySelector('form').classList.remove('ad-form--disabled');
-    isActiveMap = true;
+    window.data.isActiveMap = true;
   };
 
   map.appendChild(templateCard);
@@ -40,6 +39,5 @@
   window.map = {
     map: map,
     templateCard: templateCard,
-    isActiveMap: isActiveMap
   };
 })();

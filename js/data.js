@@ -4,6 +4,7 @@
   var pins = [];
 
   window.data = {
-    pins: pins
+    pins: pins,
+    isActiveMap:false
   };
 })();
