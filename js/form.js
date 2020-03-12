@@ -198,7 +198,7 @@ var validationGuest = function () {
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    window.backend.upload(new FormData(form), function (response) {
+    window.backend.sent(new FormData(form), function (response) {
       window.map.map.classList.add('map--faded');
       hiddenPins();
       form.reset();

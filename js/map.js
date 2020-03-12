@@ -9,10 +9,12 @@
       return;
     }
     map.classList.remove('map--faded');
-    window.backend.load(function (data) {
+    window.backend.load(function (data){
       window.data.pins = data;
       window.pin.renderPins(data);
       map.appendChild(window.pin.renderPins());
+    },function (error) {
+      addPopupError(error);
     });
     window.form.toggleDisabled(false);
     window.form.adForm.querySelector('form').classList.remove('ad-form--disabled');
