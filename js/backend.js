@@ -11,7 +11,6 @@
   var makeRequest = function (onSuccess, onError, xhr){
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
-        console.log(1)
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

@@ -194,7 +194,7 @@ var validationGuest = function () {
   };
 
   var addPopupError = function (error) {
-    //errorTemplate querySelector  textContent
+    errorTemplate.querySelector('.error__message').textContent = error;
     main.appendChild(errorTemplate);
   };
 
@@ -202,11 +202,12 @@ var validationGuest = function () {
     evt.preventDefault();
 
     window.backend.send(new FormData(form), function (response) {
-      console.log(2)
+
       window.map.map.classList.add('map--faded');
       removePins();
       form.reset();
       addPopupSuccess();
+      console.log(2)
       window.data.isActiveMap = false;
     },function (error) {
       addPopupError(error);
