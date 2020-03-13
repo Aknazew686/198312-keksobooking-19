@@ -219,26 +219,26 @@ var validationGuest = function () {
 
   succesTemplate.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
-      succesTemplate.classList.add('hidden');
+      succesTemplate.remove();
     };
   });
 
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ESC_KEY) {
-      succesTemplate.classList.add('hidden');
-      errorTemplate.classList.add('hidden');
+      succesTemplate.remove();
+      errorTemplate.remove();
     };
   });
 
   errorTemplate.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
-      errorTemplate.classList.add('hidden');
+      errorTemplate.remove();
     };
   });
 
   errorButton.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
-      errorTemplate.classList.add('hidden');
+      errorTemplate.remove();
     };
   });
 
