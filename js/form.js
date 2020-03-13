@@ -14,25 +14,56 @@
   var priceInput = document.querySelector('#price');
   var mapPinClickHandler = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
+  var form = document.querySelector('.ad-form');
+  var successPopup = document.querySelector('#success').content.querySelector('.success');
+  var succesTemplate = successPopup.cloneNode(true);
+  var errorPopup = document.querySelector('#error').content.querySelector('.error');
+  var errorTemplate = errorPopup.cloneNode(true);
+  var main = document.querySelector('main');
+  var buttonReset = document.querySelector('.ad-form__reset');
+  var errorButton = document.querySelector('#error').content.querySelector('.error__button');
+
+
+  buttonReset.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      priceInput.setAttribute('placeholder', 1000);
+    };
+  });
+
+  buttonReset.addEventListener('keydown', function (evt) {
+    if (evt.key === window.const.ENTER_KEY) {
+      priceInput.setAttribute('placeholder', 1000);
+    };
+  });
+
+var validationRoom = function () {
+  if (room.value === '100' && guest.value !== '0') {
+    room.setCustomValidity('Должно быть выбранно "не для гостей" ')
+  } else if (room.value < guest.value) {
+    room.setCustomValidity('Количество гостей превышает количество комнат')
+  } else {
+    room.setCustomValidity('')
+  }
+};
+
+var validationGuest = function () {
+  if (guest.value === '0' && room.value !== '100') {
+    room.setCustomValidity('Должно быть выбранно "100 комнат" ')
+  } else if (guest.value > room.value) {
+    guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
+  } else {
+    guest.setCustomValidity('')
+  }
+};
 
   room.addEventListener('change', function (evt) {
-    if (room.value === '100' && guest.value !== '0') {
-      room.setCustomValidity('Должно быть выбранно "не для гостей" ')
-    } else if (room.value < guest.value) {
-      room.setCustomValidity('Количество гостей превышает количество комнат')
-    } else {
-      room.setCustomValidity('')
-    }
+    validationGuest();
+    validationRoom();
   });
 
   guest.addEventListener('change', function (evt) {
-    if (guest.value === '0' && room.value !== '100') {
-      room.setCustomValidity('Должно быть выбранно "100 комнат" ')
-    } else if (guest.value > room.value) {
-      guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
-    } else {
-      guest.setCustomValidity('')
-    }
+    validationRoom();
+    validationGuest();
   });
 
   var houseType = {
@@ -150,12 +181,74 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove()
+    };
+  };
+
+  var addPopupSuccess = function () {
+    main.appendChild(succesTemplate);
+  };
+
+  var addPopupError = function (error) {
+    errorTemplate.querySelector('.error__message').textContent = error;
+    main.appendChild(errorTemplate);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    window.backend.send(new FormData(form), function (response) {
+
+      window.map.map.classList.add('map--faded');
+      removePins();
+      form.reset();
+      addPopupSuccess();
+      console.log(2)
+      window.data.isActiveMap = false;
+    },function (error) {
+      addPopupError(error);
+    });
+    form.classList.add('ad-form--disabled');
+    toggleDisabled(true);
+    priceInput.setAttribute('placeholder', 1000);
+  });
+
+  succesTemplate.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      succesTemplate.remove();
+    };
+  });
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.key === window.const.ESC_KEY) {
+      succesTemplate.remove();
+      errorTemplate.remove();
+    };
+  });
+
+  errorTemplate.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      errorTemplate.remove();
+    };
+  });
+
+  errorButton.addEventListener('mousedown', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      errorTemplate.remove();
+    };
+  });
+
   window.form = {
     adForm: adForm,
     toggleDisabled: toggleDisabled,
     getTypeName: getTypeName,
     mapPinClickHandler: mapPinClickHandler,
     renderAdress: renderAdress,
+    addPopupError: addPopupError,
     xCoord: xCoord,
     yCoord: yCoord
   };
