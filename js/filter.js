@@ -80,7 +80,7 @@
       guests: guests,
       features: features
     })
-
+    window.card.modalCardHidden();
     window.pin.renderPins(pins);
   }
 
