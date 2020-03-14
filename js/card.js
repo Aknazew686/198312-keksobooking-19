@@ -44,20 +44,26 @@
     modalCard.querySelector('.popup__avatar').src = pin.author.avatar;
 };
 
+var modalCardHidden = function () {
+  modalCard.classList.add('hidden');
+};
+
 window.map.map.addEventListener('keydown', function (evt) {
   if (evt.key === window.const.ESC_KEY) {
-    modalCard.classList.add('hidden');
+    modalCardHidden();
   };
 });
 
 popupClose.addEventListener('mouseup', function (evt) {
   if (evt.which === window.const.CLICK_MOUSE_LEFT) {
-    modalCard.classList.add('hidden');
+    modalCardHidden();
   };
 });
 
 window.card = {
   modalCard: modalCard,
-  renderCard: renderCard
+  renderCard: renderCard,
+  popupClose: popupClose,
+  modalCardHidden: modalCardHidden
 };
 })();
