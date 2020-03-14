@@ -10,13 +10,15 @@
     }
     map.classList.remove('map--faded');
     window.backend.load(function (data){
-      window.data.pins = data;
-      window.pin.renderPins(data);
-      map.appendChild(window.pin.renderPins());
+      window.data.pins = data.filter(function(item){
+        return item.offer !== undefined
+      });
+      window.filter.renderFilterPins()
     },function (error) {
       window.form.addPopupError(error);
     });
     window.form.toggleDisabled(false);
+    window.form.filterDisabled(false);
     window.form.adForm.querySelector('form').classList.remove('ad-form--disabled');
     window.data.isActiveMap = true;
   };
@@ -40,6 +42,6 @@
 
   window.map = {
     map: map,
-    templateCard: templateCard
+    templateCard: templateCard,
   };
 })();

@@ -11,6 +11,8 @@
   var guest = document.querySelector('#capacity');
   var adForm = document.querySelector('.notice');
   var adFormElements = adForm.querySelectorAll('fieldset');
+  var filter = document.querySelector('.map__filters');
+  var filterElement = filter.querySelectorAll('select');
   var priceInput = document.querySelector('#price');
   var mapPinClickHandler = document.querySelector('.map__pin--main');
   var address = document.querySelector('#address');
@@ -100,6 +102,18 @@ var validationGuest = function () {
 
   toggleDisabled(true);
 
+  var filterDisabled = function(type) {
+    for (var i = 0; i < filterElement.length; i++ ) {
+      if (type) {
+        filterElement[i].setAttribute('disabled', 'disabled');
+      } else {
+        filterElement[i].removeAttribute('disabled');
+      }
+    };
+  };
+
+  filterDisabled(true);
+
   var getTypeName = function (type) {
     switch (type) {
       case 'bungalo':
@@ -181,14 +195,6 @@ var validationGuest = function () {
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  var removePins = function () {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove()
-    };
-  };
-
   var addPopupSuccess = function () {
     main.appendChild(succesTemplate);
   };
@@ -202,9 +208,8 @@ var validationGuest = function () {
     evt.preventDefault();
 
     window.backend.send(new FormData(form), function (response) {
-
       window.map.map.classList.add('map--faded');
-      removePins();
+      window.pin.removePins();
       form.reset();
       addPopupSuccess();
       console.log(2)
@@ -214,6 +219,7 @@ var validationGuest = function () {
     });
     form.classList.add('ad-form--disabled');
     toggleDisabled(true);
+    filterDisabled(true);
     priceInput.setAttribute('placeholder', 1000);
   });
 
@@ -245,6 +251,7 @@ var validationGuest = function () {
   window.form = {
     adForm: adForm,
     toggleDisabled: toggleDisabled,
+    filterDisabled: filterDisabled,
     getTypeName: getTypeName,
     mapPinClickHandler: mapPinClickHandler,
     renderAdress: renderAdress,
