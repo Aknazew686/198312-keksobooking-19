@@ -29,12 +29,14 @@
   buttonReset.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       priceInput.setAttribute('placeholder', 1000);
+      resetMainPin();
     }
   });
 
   buttonReset.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ENTER_KEY) {
       priceInput.setAttribute('placeholder', 1000);
+      resetMainPin();
     }
   });
 
@@ -161,22 +163,15 @@
       yCoord = yCoord - shift.y;
 
       if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
-        mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
         xCoord = (0 - MAINPIN_WIDTH / 2);
       } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
-        mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
         xCoord = (1200 - MAINPIN_WIDTH / 2);
       } else {
         mapPinClickHandler.style.left = xCoord + 'px';
       }
 
       if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
-        mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
         yCoord = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
-      } else if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
-        yCoord = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
-        mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
-
       } else {
         mapPinClickHandler.style.top = yCoord + 'px';
       }
@@ -204,6 +199,16 @@
     main.appendChild(errorTemplate);
   };
 
+  var mainPinDefaultPos = {
+    left: '570px',
+    top: '375px'
+  };
+
+  var resetMainPin = function () {
+    mapPinClickHandler.style.left = mainPinDefaultPos.left;
+    mapPinClickHandler.style.top = mainPinDefaultPos.top;
+  };
+
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
@@ -211,6 +216,7 @@
       window.map.map.classList.add('map--faded');
       window.pin.removePins();
       form.reset();
+      resetMainPin();
       addPopupSuccess();
       window.data.isActiveMap = false;
     }, function (error) {
