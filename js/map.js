@@ -9,12 +9,12 @@
       return;
     }
     map.classList.remove('map--faded');
-    window.backend.load(function (data){
-      window.data.pins = data.filter(function(item){
-        return item.offer !== undefined
+    window.backend.load(function (data) {
+      window.data.pins = data.filter(function (item) {
+        return item.offer !== undefined;
       });
-      window.filter.renderFilterPins()
-    },function (error) {
+      window.filter.renderFilterPins();
+    }, function (error) {
       window.form.addPopupError(error);
     });
     window.form.toggleDisabled(false);
@@ -29,7 +29,7 @@
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       getActiveMap();
       window.form.renderAdress();
-    };
+    }
 
   });
 

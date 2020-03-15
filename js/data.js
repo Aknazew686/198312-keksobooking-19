@@ -5,6 +5,6 @@
 
   window.data = {
     pins: pins,
-    isActiveMap:false
+    isActiveMap: false
   };
 })();

@@ -8,7 +8,7 @@
   var TIME_IN_MS = 10000;
   var URL = 'https://js.dump.academy/keksobooking';
 
-  var makeRequest = function (onSuccess, onError, xhr){
+  var makeRequest = function (onSuccess, onError, xhr) {
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
         onSuccess(xhr.response);
@@ -27,7 +27,7 @@
   };
 
   window.backend = {
-    load: function (onSuccess, onError,) {
+    load: function (onSuccess, onError) {
       var xhr = new XMLHttpRequest();
       makeRequest(onSuccess, onError, xhr);
       xhr.open('GET', URL + '/data');

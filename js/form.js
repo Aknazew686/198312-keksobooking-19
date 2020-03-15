@@ -6,7 +6,7 @@
   var MAINPIN_TRAINGLE_HEIGHT = 22;
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
-  var typeHousing = document.querySelector('#type')
+  var typeHousing = document.querySelector('#type');
   var room = document.querySelector('#room_number');
   var guest = document.querySelector('#capacity');
   var adForm = document.querySelector('.notice');
@@ -29,41 +29,41 @@
   buttonReset.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       priceInput.setAttribute('placeholder', 1000);
-    };
+    }
   });
 
   buttonReset.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ENTER_KEY) {
       priceInput.setAttribute('placeholder', 1000);
-    };
+    }
   });
 
-var validationRoom = function () {
-  if (room.value === '100' && guest.value !== '0') {
-    room.setCustomValidity('Должно быть выбранно "не для гостей" ')
-  } else if (room.value < guest.value) {
-    room.setCustomValidity('Количество гостей превышает количество комнат')
-  } else {
-    room.setCustomValidity('')
-  }
-};
+  var validationRoom = function () {
+    if (room.value === '100' && guest.value !== '0') {
+      room.setCustomValidity('Должно быть выбранно "не для гостей" ');
+    } else if (room.value < guest.value) {
+      room.setCustomValidity('Количество гостей превышает количество комнат');
+    } else {
+      room.setCustomValidity('');
+    }
+  };
 
-var validationGuest = function () {
-  if (guest.value === '0' && room.value !== '100') {
-    room.setCustomValidity('Должно быть выбранно "100 комнат" ')
-  } else if (guest.value > room.value) {
-    guest.setCustomValidity('Количество комнат меньше,чем количество гостей')
-  } else {
-    guest.setCustomValidity('')
-  }
-};
+  var validationGuest = function () {
+    if (guest.value === '0' && room.value !== '100') {
+      room.setCustomValidity('Должно быть выбранно "100 комнат" ');
+    } else if (guest.value > room.value) {
+      guest.setCustomValidity('Количество комнат меньше,чем количество гостей');
+    } else {
+      guest.setCustomValidity('');
+    }
+  };
 
-  room.addEventListener('change', function (evt) {
+  room.addEventListener('change', function () {
     validationGuest();
     validationRoom();
   });
 
-  guest.addEventListener('change', function (evt) {
+  guest.addEventListener('change', function () {
     validationRoom();
     validationGuest();
   });
@@ -73,7 +73,7 @@ var validationGuest = function () {
     flat: 1000,
     house: 5000,
     palace: 10000
-  }
+  };
 
   timeIn.addEventListener('change', function (evt) {
     timeOut.value = evt.target.value;
@@ -84,32 +84,32 @@ var validationGuest = function () {
   });
 
   typeHousing.addEventListener('change', function (evt) {
-      var value = evt.target.value;
+    var value = evt.target.value;
 
-      priceInput.setAttribute('min', houseType[value]);
-      priceInput.setAttribute('placeholder', houseType[value]);
+    priceInput.setAttribute('min', houseType[value]);
+    priceInput.setAttribute('placeholder', houseType[value]);
   });
 
-  var toggleDisabled = function(type) {
-    for (var i = 0; i < adFormElements.length; i++ ) {
+  var toggleDisabled = function (type) {
+    for (var i = 0; i < adFormElements.length; i++) {
       if (type) {
         adFormElements[i].setAttribute('disabled', 'disabled');
       } else {
         adFormElements[i].removeAttribute('disabled');
       }
-    };
+    }
   };
 
   toggleDisabled(true);
 
-  var filterDisabled = function(type) {
-    for (var i = 0; i < filterElement.length; i++ ) {
+  var filterDisabled = function (type) {
+    for (var i = 0; i < filterElement.length; i++) {
       if (type) {
         filterElement[i].setAttribute('disabled', 'disabled');
       } else {
         filterElement[i].removeAttribute('disabled');
       }
-    };
+    }
   };
 
   filterDisabled(true);
@@ -129,8 +129,8 @@ var validationGuest = function () {
     }
   };
 
-  var xCoord = parseInt(mapPinClickHandler.style.left);
-  var yCoord = parseInt(mapPinClickHandler.style.top);
+  var xCoord = parseInt(mapPinClickHandler.style.left, 10);
+  var yCoord = parseInt(mapPinClickHandler.style.top, 10);
 
   var renderAdress = function () {
     address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
@@ -163,12 +163,12 @@ var validationGuest = function () {
       if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
         mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
         xCoord = (0 - MAINPIN_WIDTH / 2);
-       } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
+      } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
         mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
-        xCoord = (1200 -  MAINPIN_WIDTH / 2);
+        xCoord = (1200 - MAINPIN_WIDTH / 2);
       } else {
         mapPinClickHandler.style.left = xCoord + 'px';
-      };
+      }
 
       if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
         mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
@@ -179,7 +179,7 @@ var validationGuest = function () {
 
       } else {
         mapPinClickHandler.style.top = yCoord + 'px';
-      };
+      }
 
       renderAdress();
     };
@@ -207,14 +207,13 @@ var validationGuest = function () {
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    window.backend.send(new FormData(form), function (response) {
+    window.backend.send(new FormData(form), function () {
       window.map.map.classList.add('map--faded');
       window.pin.removePins();
       form.reset();
       addPopupSuccess();
-      console.log(2)
       window.data.isActiveMap = false;
-    },function (error) {
+    }, function (error) {
       addPopupError(error);
     });
     form.classList.add('ad-form--disabled');
@@ -226,26 +225,26 @@ var validationGuest = function () {
   succesTemplate.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       succesTemplate.remove();
-    };
+    }
   });
 
   document.addEventListener('keydown', function (evt) {
     if (evt.key === window.const.ESC_KEY) {
       succesTemplate.remove();
       errorTemplate.remove();
-    };
+    }
   });
 
   errorTemplate.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       errorTemplate.remove();
-    };
+    }
   });
 
   errorButton.addEventListener('mousedown', function (evt) {
     if (evt.which === window.const.CLICK_MOUSE_LEFT) {
       errorTemplate.remove();
-    };
+    }
   });
 
   window.form = {

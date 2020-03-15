@@ -23,11 +23,11 @@
   var renderPhoto = function (photo, container) {
     container.innerHTML = '';
 
-     for (var i = 0; i < photo.length; i++) {
-       var cardPhoto = photoTemplate.cloneNode(true);
-       cardPhoto.querySelector('img').src = photo[i];
-       container.appendChild(cardPhoto);
-      }
+    for (var i = 0; i < photo.length; i++) {
+      var cardPhoto = photoTemplate.cloneNode(true);
+      cardPhoto.querySelector('img').src = photo[i];
+      container.appendChild(cardPhoto);
+    }
   };
 
   var renderCard = function (pin) {
@@ -38,32 +38,32 @@
     modalCard.querySelector('.popup__type').textContent = window.form.getTypeName(pin.offer.type);
     modalCard.querySelector('.popup__text--capacity').textContent = pin.offer.rooms + ' комнаты для ' + pin.offer.guests + ' гостей';
     modalCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + pin.offer.checkin + ', выезд до ' + pin.offer.checkout;
-    renderFeatures(pin.offer.features, modalCard.querySelector('.popup__features') );
+    renderFeatures(pin.offer.features, modalCard.querySelector('.popup__features'));
     modalCard.querySelector('.popup__description').textContent = pin.offer.description;
     renderPhoto(pin.offer.photos, modalCard.querySelector('.popup__photos'));
     modalCard.querySelector('.popup__avatar').src = pin.author.avatar;
-};
-
-var modalCardHidden = function () {
-  modalCard.classList.add('hidden');
-};
-
-window.map.map.addEventListener('keydown', function (evt) {
-  if (evt.key === window.const.ESC_KEY) {
-    modalCardHidden();
   };
-});
 
-popupClose.addEventListener('mouseup', function (evt) {
-  if (evt.which === window.const.CLICK_MOUSE_LEFT) {
-    modalCardHidden();
+  var modalCardHidden = function () {
+    modalCard.classList.add('hidden');
   };
-});
 
-window.card = {
-  modalCard: modalCard,
-  renderCard: renderCard,
-  popupClose: popupClose,
-  modalCardHidden: modalCardHidden
-};
+  window.map.map.addEventListener('keydown', function (evt) {
+    if (evt.key === window.const.ESC_KEY) {
+      modalCardHidden();
+    }
+  });
+
+  popupClose.addEventListener('mouseup', function (evt) {
+    if (evt.which === window.const.CLICK_MOUSE_LEFT) {
+      modalCardHidden();
+    }
+  });
+
+  window.card = {
+    modalCard: modalCard,
+    renderCard: renderCard,
+    popupClose: popupClose,
+    modalCardHidden: modalCardHidden
+  };
 })();
