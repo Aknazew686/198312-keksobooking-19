@@ -163,15 +163,18 @@
       yCoord = yCoord - shift.y;
 
       if (xCoord + MAINPIN_WIDTH / 2 <= 0) {
-        xCoord = (0 - MAINPIN_WIDTH / 2);
+        mapPinClickHandler.style.left = (0 - MAINPIN_WIDTH / 2) + 'px';
       } else if (xCoord + MAINPIN_WIDTH / 2 >= 1200) {
-        xCoord = (1200 - MAINPIN_WIDTH / 2);
+        mapPinClickHandler.style.left = (1200 - MAINPIN_WIDTH / 2) + 'px';
       } else {
         mapPinClickHandler.style.left = xCoord + 'px';
       }
 
       if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT <= 130) {
-        yCoord = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT);
+        mapPinClickHandler.style.top = (130 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
+      } else if (yCoord + MAINPIN_HEIGHT + MAINPIN_TRAINGLE_HEIGHT >= 630) {
+        mapPinClickHandler.style.top = (630 - MAINPIN_HEIGHT - MAINPIN_TRAINGLE_HEIGHT) + 'px';
+
       } else {
         mapPinClickHandler.style.top = yCoord + 'px';
       }
