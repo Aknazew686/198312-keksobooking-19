@@ -30,9 +30,9 @@
   var removePins = function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
-    }
+    pins.forEach(function (item) {
+      item.remove();
+    });
   };
 
   var renderPins = function (pins) {

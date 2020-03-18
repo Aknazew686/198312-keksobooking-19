@@ -59,15 +59,14 @@
     var features = document.querySelectorAll('#housing-features .map__checkbox');
     var featuresActive = [];
 
-    for (var i = 0; i < features.length; i++) {
-      if (features[i].checked) {
-        featuresActive.push(features[i].value);
+    features.forEach(function (item) {
+      if (item.checked) {
+        featuresActive.push(item.value);
       }
-    }
+    });
 
     return featuresActive;
   };
-
   var renderFilterPins = function () {
     var house = filter.querySelector('#housing-type').value;
     var price = filter.querySelector('#housing-price').value;
