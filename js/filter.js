@@ -19,13 +19,9 @@
   };
 
   var filterFeatures = function (features, pinFeatures) {
-    for (var i = 0; i < features.length; i++) {
-      if (pinFeatures.indexOf(features[i]) === -1) {
-        return false;
-      }
-    }
-
-    return true;
+    return features.every(function (item) {
+      return pinFeatures.indexOf(item) !== -1;
+    });
   };
 
   var filterItem = function (params) {

@@ -28,7 +28,7 @@
   var yCoord = parseInt(mapPinClick.style.top, 10);
 
   var renderAdress = function () {
-    address.value = xCoord + (MAINPIN_WIDTH / 2) + ', ' + (yCoord + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
+    address.value = parseInt(mapPinClick.style.left, 10) + (MAINPIN_WIDTH / 2) + ', ' + (parseInt(mapPinClick.style.top, 10) + MAINPIN_TRAINGLE_HEIGHT + MAINPIN_HEIGHT);
   };
 
   renderAdress();
@@ -165,6 +165,9 @@
       x: evt.clientX,
       y: evt.clientY
     };
+
+    xCoord = parseInt(mapPinClick.style.left, 10);
+    yCoord = parseInt(mapPinClick.style.top, 10);
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();

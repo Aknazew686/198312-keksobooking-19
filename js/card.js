@@ -3,18 +3,20 @@
 (function () {
   var photoTemplate = window.map.templateCard.querySelector('.popup__photos').cloneNode(true);
   var modalCard = document.querySelector('.map__card.popup');
+  var featureItem = window.map.templateCard.querySelector('.popup__feature--wifi');
   var popupClose = window.map.templateCard.querySelector('.popup__close');
 
   modalCard.classList.add('hidden');
 
-  var renderFeatures = function (features, container) {
-    var featuresElement = container.querySelector('.popup__feature');
+  featureItem.classList.remove('popup__feature--wifi');
 
-    for (var i = 0; i < featuresElement.length; i++) {
-      var classType = featuresElement[i].classList[1].split('--')[1];
-      if (features.indexOf(classType) === -1) {
-        featuresElement[i].remove();
-      }
+  var renderFeatures = function (features, container) {
+    container.innerHTML = '';
+
+    for (var i = 0; i < features.length; i++) {
+      var cardFeature = featureItem.cloneNode(true);
+      cardFeature.classList.add('popup__feature--' + features[i]);
+      container.appendChild(cardFeature);
     }
   };
 
